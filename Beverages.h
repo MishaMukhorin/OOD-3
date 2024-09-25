@@ -1,16 +1,18 @@
 ﻿#pragma once
 
+#include <utility>
+
 #include "IBeverage.h"
 
 // Базовая реализация напитка, предоставляющая его описание
 class CBeverage : public IBeverage
 {
 public:
-	CBeverage(const std::string & description)
-		:m_description(description)
+	explicit CBeverage(std::string description)
+		:m_description(std::move(description))
 	{}
 
-	std::string GetDescription()const override final
+	std::string GetDescription()const final
 	{
 		return m_description;
 	}
@@ -22,7 +24,7 @@ private:
 class CCoffee : public CBeverage
 {
 public:
-	CCoffee(const std::string& description = "Coffee")
+	explicit CCoffee(const std::string& description = "Coffee")
 		:CBeverage(description) 
 	{}
 
@@ -36,7 +38,7 @@ public:
 class CCappuccino : public CCoffee
 {
 public:
-    CCappuccino(bool isDoublePortion = false)
+    explicit CCappuccino(bool isDoublePortion = false)
             : CCoffee(isDoublePortion ? "Double Cappuccino" : "Standard Cappuccino"), m_isDoublePortion(isDoublePortion)
             {}
 
@@ -52,7 +54,7 @@ private:
 class CLatte : public CCoffee
 {
 public:
-    CLatte(bool isDoublePortion = false)
+    explicit CLatte(bool isDoublePortion = false)
             : CCoffee(isDoublePortion ? "Double Latte" : "Standard Latte"), m_isDoublePortion(isDoublePortion)
             {}
 
